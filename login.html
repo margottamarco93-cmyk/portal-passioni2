@@ -49,7 +49,7 @@
 
     .auth-header {
       background: var(--bg-gradient);
-      padding: 24px 26px 70px;
+      padding: 24px 26px 95px;  /* alzato per far vedere meglio i campi */
       color: #fff;
       position: relative;
       overflow: hidden;
@@ -217,7 +217,12 @@
       background: #fff;
       color: var(--accent);
     }
-  }
+
+    @media (max-width: 480px) {
+      .auth-header {
+        padding-bottom: 115px;
+      }
+    }
   </style>
 </head>
 
@@ -346,3 +351,4 @@
 
 </body>
 </html>
+
