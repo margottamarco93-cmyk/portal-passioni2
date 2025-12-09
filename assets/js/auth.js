@@ -11,34 +11,31 @@ const firebaseConfig = {
   appId: "1:578783174328:web:9770c86aa93d7fa3055e4d"
 };
 
-// evita errori se lo includi su più pagine
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
 const auth = firebase.auth();
-const db = firebase.firestore();
+const db   = firebase.firestore();
 
-// CODICE AZIENDALE – CAMBIALO TU
+// CODICE AZIENDALE
 const COMPANY_CODE = "ABC123";
 
-// Capire se siamo su login.html
+// Siamo su login?
 const href = window.location.href.toLowerCase();
 const isLoginPage = href.includes("login.html");
 
-// Redirect automatico in base allo stato di login
+// Redirect automatici
 auth.onAuthStateChanged(user => {
   if (user && isLoginPage) {
-    // Utente già loggato → mandalo in dashboard
     window.location.href = "index.html";
   }
   if (!user && !isLoginPage) {
-    // Non loggato ma su pagina privata → torna al login
     window.location.href = "login.html";
   }
 });
 
-// Utility per mostrare errori
+// Utility errori
 function setError(id, msg) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -51,7 +48,7 @@ function setError(id, msg) {
   }
 }
 
-// --------- LOGIN ---------
+// ------ LOGIN ------
 const formLogin = document.getElementById("form-login");
 
 if (formLogin) {
@@ -62,7 +59,6 @@ if (formLogin) {
     const email = document.getElementById("login-email").value.trim();
     const password = document.getElementById("login-password").value;
 
-    // CONTROLLI BASE
     if (!email || !password) {
       setError("login-error", "Inserisci email e password.");
       return;
@@ -73,7 +69,6 @@ if (formLogin) {
       return;
     }
 
-    // LOGIN Firebase
     auth.signInWithEmailAndPassword(email, password)
       .then(() => {
         window.location.href = "index.html";
@@ -89,7 +84,7 @@ if (formLogin) {
   });
 }
 
-// --------- REGISTRAZIONE ---------
+// ------ REGISTRAZIONE ------
 const formSignup = document.getElementById("form-signup");
 
 if (formSignup) {
@@ -97,13 +92,12 @@ if (formSignup) {
     e.preventDefault();
     setError("signup-error", "");
 
-    const name = document.getElementById("signup-name").value.trim();
+    const name  = document.getElementById("signup-name").value.trim();
     const email = document.getElementById("signup-email").value.trim();
     const pass1 = document.getElementById("signup-password").value;
     const pass2 = document.getElementById("signup-password2").value;
-    const code = document.getElementById("signup-code").value.trim();
+    const code  = document.getElementById("signup-code").value.trim();
 
-    // CONTROLLI CLIENT
     if (!name || !email || !pass1 || !pass2 || !code) {
       setError("signup-error", "Compila tutti i campi.");
       return;
@@ -129,7 +123,6 @@ if (formSignup) {
       return;
     }
 
-    // REGISTRAZIONE Firebase
     try {
       const cred = await auth.createUserWithEmailAndPassword(email, pass1);
       const user = cred.user;
@@ -152,10 +145,9 @@ if (formSignup) {
   });
 }
 
-// --------- LOGOUT (da usare nelle altre pagine) ---------
+// ------ LOGOUT (da usare nelle altre pagine) ------
 function logout() {
   auth.signOut().then(() => {
     window.location.href = "login.html";
   });
 }
-// nelle altre pagine puoi fare: <a href="#" onclick="logout()">Logout</a>
