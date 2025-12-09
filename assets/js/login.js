@@ -1,4 +1,26 @@
-// js/auth.js
+// ---- UI SWITCH LOGIN / SIGNUP ----
+const loginText = document.querySelector(".title-text .login");
+const formInner = document.querySelector(".form-inner");
+const loginLabel = document.querySelector("label.login");
+const signupLabel = document.querySelector("label.signup");
+const signupLink = document.querySelector("form.login .signup-link a");
+
+signupLabel.onclick = () => {
+  formInner.style.marginLeft = "-50%";
+  loginText.style.marginLeft = "-50%";
+};
+
+loginLabel.onclick = () => {
+  formInner.style.marginLeft = "0%";
+  loginText.style.marginLeft = "0%";
+};
+
+if (signupLink) {
+  signupLink.onclick = (e) => {
+    e.preventDefault();
+    signupLabel.click();
+  };
+}
 
 // ---- CONFIG FIREBASE ----
 const firebaseConfig = {
@@ -19,23 +41,22 @@ const auth = firebase.auth();
 const db   = firebase.firestore();
 
 // CODICE AZIENDALE
-const COMPANY_CODE = "ABC123";
+const COMPANY_CODE = "ABC123"; // CAMBIA QUESTO
 
-// Siamo su login?
+// Sei su login.html?
 const href = window.location.href.toLowerCase();
 const isLoginPage = href.includes("login.html");
 
-// Redirect automatici
+// Redirect base (se lo useremo sulle altre pagine)
 auth.onAuthStateChanged(user => {
   if (user && isLoginPage) {
-    window.location.href = "index.html";
-  }
-  if (!user && !isLoginPage) {
-    window.location.href = "login.html";
+    // già loggato → vai a index
+    // commenta se per ora vuoi solo testare i controlli
+    // window.location.href = "index.html";
   }
 });
 
-// Utility errori
+// Utility per errori
 function setError(id, msg) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -48,11 +69,10 @@ function setError(id, msg) {
   }
 }
 
-// ------ LOGIN ------
-const formLogin = document.getElementById("form-login");
-
-if (formLogin) {
-  formLogin.addEventListener("submit", (e) => {
+// ---- LOGIN ----
+const loginForm = document.getElementById("login-form");
+if (loginForm) {
+  loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
     setError("login-error", "");
 
@@ -69,11 +89,14 @@ if (formLogin) {
       return;
     }
 
+    // DEBUG: togli commento per vedere che entra qui
+    // alert("Login: controlli lato client OK");
+
     auth.signInWithEmailAndPassword(email, password)
       .then(() => {
         window.location.href = "index.html";
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
         let msg = err.message;
         if (err.code === "auth/user-not-found" || err.code === "auth/wrong-password") {
@@ -84,11 +107,10 @@ if (formLogin) {
   });
 }
 
-// ------ REGISTRAZIONE ------
-const formSignup = document.getElementById("form-signup");
-
-if (formSignup) {
-  formSignup.addEventListener("submit", async (e) => {
+// ---- SIGNUP ----
+const signupForm = document.getElementById("signup-form");
+if (signupForm) {
+  signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     setError("signup-error", "");
 
@@ -123,6 +145,9 @@ if (formSignup) {
       return;
     }
 
+    // DEBUG: togli commento per vedere che entra
+    // alert("Signup: controlli lato client OK");
+
     try {
       const cred = await auth.createUserWithEmailAndPassword(email, pass1);
       const user = cred.user;
@@ -145,7 +170,7 @@ if (formSignup) {
   });
 }
 
-// ------ LOGOUT (da usare nelle altre pagine) ------
+// ---- LOGOUT PER ALTRE PAGINE ----
 function logout() {
   auth.signOut().then(() => {
     window.location.href = "login.html";
