@@ -2,185 +2,233 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <title>Login / Registrazione</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+  <title>La Comunità</title>
 
   <style>
-    * {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-    html,body{display:grid;height:100%;width:100%;place-items:center;background:linear-gradient(45deg,#003366,#004080,#0059b3,#0073e6);}
-    .wrapper{overflow:hidden;max-width:390px;width:100%;background:#fff;padding:25px;border-radius:15px;}
-    .title-text{display:flex;width:200%;}
-    .title{width:50%;font-size:24px;text-align:center;transition:.6s cubic-bezier(0.68,-0.55,0.265,1.55);}
-    .slide-controls{position:relative;display:flex;height:50px;border:1px solid #ccc;border-radius:15px;margin:20px 0;overflow:hidden;}
-    .slide-controls label{width:50%;text-align:center;line-height:50px;cursor:pointer;}
-    .slider-tab{position:absolute;width:50%;height:50px;background:linear-gradient(45deg,#003366,#004080,#0059b3,#0073e6);border-radius:15px;transition:.6s cubic-bezier(0.68,-0.55,0.265,1.55);}
-    input[type=radio]{display:none;}
-    #signup:checked ~ .slider-tab{transform:translateX(100%);}
-    .form-inner{display:flex;width:200%;transition:.6s cubic-bezier(0.68,-0.55,0.265,1.55);}
-    #signup:checked ~ .form-inner{margin-left:-50%;}
-    form .field{margin-bottom:15px;}
-    form input{width:100%;height:45px;padding:0 15px;border-radius:12px;border:1px solid #ccc;}
-    .btn input{background:linear-gradient(45deg,#003366,#004080,#0059b3,#0073e6);border:none;color:#fff;cursor:pointer;width:100%;height:45px;border-radius:12px;font-weight:600;}
-    .error-msg{display:none;background:#fee2e2;color:#b91c1c;font-size:13px;padding:6px;border-radius:12px;text-align:center;margin-top:6px;}
-    .error-msg.visible{display:block;}
+    body{
+      background: linear-gradient(135deg,#003366,#0073e6);
+      margin:0;
+      font-family: Arial, sans-serif;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      padding:20px;
+    }
+
+    .card{
+      background:#fff;
+      width:100%;
+      max-width:420px;
+      border-radius:15px;
+      padding:24px;
+      box-shadow:0 10px 40px rgba(0,0,0,0.15);
+    }
+
+    h2{
+      text-align:center;
+      margin-bottom:10px;
+    }
+
+    .toggle{
+      display:flex;
+      background:#f0f0f0;
+      border-radius:10px;
+      overflow:hidden;
+      margin-bottom:20px;
+    }
+
+    .toggle button{
+      flex:1;
+      padding:10px;
+      border:none;
+      background:none;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    .toggle button.active{
+      background:#0073e6;
+      color:#fff;
+    }
+
+    .form{
+      display:none;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .form.active{
+      display:flex;
+    }
+
+    input{
+      padding:12px;
+      border-radius:8px;
+      border:1px solid #ccc;
+      font-size:15px;
+      width:100%;
+    }
+
+    .btn{
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      background:linear-gradient(135deg,#003366,#0073e6);
+      color:#fff;
+      font-weight:bold;
+      cursor:pointer;
+      margin-top:10px;
+    }
+
+    .error{
+      background:#ffe0e0;
+      color:#b30000;
+      padding:8px;
+      border-radius:8px;
+      text-align:center;
+      display:none;
+    }
   </style>
 </head>
 
 <body>
 
-  <div class="wrapper">
-    <div class="title-text">
-      <div class="title">Login</div>
-      <div class="title">Registrazione</div>
-    </div>
+<div class="card">
+  <h2>La Comunità</h2>
 
-    <div class="slide-controls">
-      <input type="radio" name="slide" id="login" checked />
-      <input type="radio" name="slide" id="signup" />
-      <label for="login">Login</label>
-      <label for="signup">Signup</label>
-      <div class="slider-tab"></div>
-    </div>
-
-    <div class="form-inner">
-
-      <!-- LOGIN -->
-      <form id="login-form">
-        <div class="field">
-          <input type="email" id="login-email" placeholder="Email" required />
-        </div>
-        <div class="field">
-          <input type="password" id="login-password" placeholder="Password" required />
-        </div>
-        <div class="btn">
-          <input type="submit" value="Login" />
-        </div>
-        <div id="login-error" class="error-msg"></div>
-      </form>
-
-      <!-- SIGNUP -->
-      <form id="signup-form">
-        <div class="field">
-          <input type="text" id="signup-name" placeholder="Nome e cognome" required />
-        </div>
-        <div class="field">
-          <input type="email" id="signup-email" placeholder="Email" required />
-        </div>
-        <div class="field">
-          <input type="password" id="signup-password" placeholder="Password" required />
-        </div>
-        <div class="field">
-          <input type="password" id="signup-password2" placeholder="Conferma password" required />
-        </div>
-        <div class="field">
-          <input type="text" id="signup-code" placeholder="Codice aziendale" required />
-        </div>
-        <div class="btn">
-          <input type="submit" value="Registrati" />
-        </div>
-        <div id="signup-error" class="error-msg"></div>
-      </form>
-
-    </div>
+  <div class="toggle">
+    <button id="btn-login" class="active">Login</button>
+    <button id="btn-signup">Registrati</button>
   </div>
 
-  <!-- FIREBASE -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <div id="error-box" class="error"></div>
 
-  <script>
-    /***** CONFIG FIREBASE ******/
-    const firebaseConfig = {
-      apiKey: "AIzaSyDWisOm9z0LrSV0BczsKD5qYuVfswwT7jw",
-      authDomain: "progetto-cooperativa-passioni.firebaseapp.com",
-      databaseURL: "https://progetto-cooperativa-passioni-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "progetto-cooperativa-passioni",
-      storageBucket: "progetto-cooperativa-passioni.firebasestorage.app",
-      messagingSenderId: "578783174328",
-      appId: "1:578783174328:web:9770c86aa93d7fa3055e4d"
-    };
+  <!-- LOGIN -->
+  <form id="login-form" class="form active">
+    <input type="email" id="login-email" placeholder="Email aziendale" required>
+    <input type="password" id="login-password" placeholder="Password" required>
+    <button class="btn" type="button" onclick="login()">Login</button>
+  </form>
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db   = firebase.firestore();
+  <!-- SIGNUP -->
+  <form id="signup-form" class="form">
+    <input type="text" id="signup-name" placeholder="Nome e cognome" required>
+    <input type="email" id="signup-email" placeholder="Email aziendale" required>
+    <input type="password" id="signup-password" placeholder="Password (min 6 caratteri)" required>
+    <input type="password" id="signup-confirm" placeholder="Conferma password" required>
+    <input type="text" id="signup-code" placeholder="Codice aziendale" required>
 
-    const COMPANY_CODE = "ABC123"; // MODIFICA TU
+    <button class="btn" type="button" onclick="signup()">Signup</button>
+  </form>
+</div>
 
-    function setError(id,msg){
-      const el=document.getElementById(id);
-      if(!msg){el.classList.remove('visible');return;}
-      el.textContent=msg;
-      el.classList.add('visible');
-    }
+<script>
+/* --- UI TOGGLE --- */
+const loginForm  = document.getElementById("login-form");
+const signupForm = document.getElementById("signup-form");
+const btnLogin   = document.getElementById("btn-login");
+const btnSignup  = document.getElementById("btn-signup");
 
-    /*************** LOGIN ***************/
-    document.getElementById("login-form").addEventListener("submit",e=>{
-      e.preventDefault();
-      setError("login-error","");
+btnLogin.onclick = () => {
+  loginForm.classList.add("active");
+  signupForm.classList.remove("active");
+  btnLogin.classList.add("active");
+  btnSignup.classList.remove("active");
+};
 
-      const email=document.getElementById("login-email").value.trim();
-      const password=document.getElementById("login-password").value;
+btnSignup.onclick = () => {
+  signupForm.classList.add("active");
+  loginForm.classList.remove("active");
+  btnSignup.classList.add("active");
+  btnLogin.classList.remove("active");
+};
 
-      if(!email||!password){
-        setError("login-error","Compila tutti i campi");
-        return;
-      }
-      if(!email.includes("@")){
-        setError("login-error","Email non valida");
-        return;
-      }
+/* --- ERROR DISPLAY --- */
+function showError(msg){
+  const box = document.getElementById("error-box");
+  box.innerText = msg;
+  box.style.display = "block";
+}
 
-      auth.signInWithEmailAndPassword(email,password)
-        .then(()=>location.href="index.html")
-        .catch(()=>setError("login-error","Credenziali non valide"));
-    });
+function clearError(){
+  document.getElementById("error-box").style.display = "none";
+}
 
-    /*************** SIGNUP ***************/
-    document.getElementById("signup-form").addEventListener("submit",async e=>{
-      e.preventDefault();
-      setError("signup-error","");
+/* --- LOGIN --- */
+function login(){
+  clearError();
+  const email = document.getElementById("login-email").value;
+  const pass  = document.getElementById("login-password").value;
 
-      const name=document.getElementById("signup-name").value.trim();
-      const email=document.getElementById("signup-email").value.trim();
-      const p1=document.getElementById("signup-password").value;
-      const p2=document.getElementById("signup-password2").value;
-      const code=document.getElementById("signup-code").value.trim();
+  if(!email || !pass){
+    showError("Compila tutti i campi.");
+    return;
+  }
 
-      if(!name||!email||!p1||!p2||!code){
-        setError("signup-error","Compila tutti i campi");
-        return;
-      }
-      if(!email.includes("@")){
-        setError("signup-error","Email non valida");
-        return;
-      }
-      if(p1.length<6){
-        setError("signup-error","Password minimo 6 caratteri");
-        return;
-      }
-      if(p1!==p2){
-        setError("signup-error","Le password non coincidono");
-        return;
-      }
-      if(code!==COMPANY_CODE){
-        setError("signup-error","Codice aziendale errato");
-        return;
-      }
+  firebase.auth().signInWithEmailAndPassword(email, pass)
+  .then(()=> window.location.href="home.html")
+  .catch(e=> showError(e.message));
+}
 
-      try{
-        const cred=await auth.createUserWithEmailAndPassword(email,p1);
-        await db.collection("profiles").doc(cred.user.uid).set({
-          name,email,createdAt:firebase.firestore.FieldValue.serverTimestamp()
-        });
-        location.href="index.html";
-      } catch(err){
-        setError("signup-error","Email già registrata");
-      }
-    });
-  </script>
+/* --- SIGNUP VALIDATION + FIREBASE --- */
+function signup(){
+  clearError();
+
+  const name   = document.getElementById("signup-name").value;
+  const email  = document.getElementById("signup-email").value;
+  const pass   = document.getElementById("signup-password").value;
+  const confirm= document.getElementById("signup-confirm").value;
+  const code   = document.getElementById("signup-code").value;
+
+  if(!name || !email || !pass || !confirm || !code){
+    showError("Compila tutti i campi.");
+    return;
+  }
+
+  if(!email.includes("@") || !email.includes(".")){
+    showError("Formato email non valido.");
+    return;
+  }
+
+  if(email.split("@")[1].split(".")[0] !== "azienda"){
+    showError("Email NON aziendale.");
+    return;
+  }
+
+  if(pass.length < 6){
+    showError("Password troppo corta.");
+    return;
+  }
+
+  if(pass !== confirm){
+    showError("Le password non coincidono.");
+    return;
+  }
+
+  if(code !== "ABC123"){
+    showError("Codice aziendale errato.");
+    return;
+  }
+
+  firebase.auth().createUserWithEmailAndPassword(email, pass)
+  .then(()=> window.location.href="home.html")
+  .catch(e=> showError(e.message));
+}
+</script>
+
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+firebase.initializeApp({
+  apiKey: "XXXX",
+  authDomain: "XXXX.firebaseapp.com",
+  projectId: "XXXX",
+});
+</script>
 
 </body>
 </html>
