@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>La Comunità | Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #6a11cb, #2575fc);
+      --card-radius: 24px;
+      --card-shadow: 0 18px 45px rgba(0,0,0,0.15);
+      --accent: #6a11cb;
+      --accent-soft: rgba(106,17,203,0.12);
+      --text-muted: #7a7a7a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top left, #6a11cb22, transparent 55%),
+                  radial-gradient(circle at bottom right, #2575fc22, transparent 55%),
+                  #0f172a;
+      padding: 16px;
+    }
+
+    .auth-shell {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .auth-card {
+      background: #fff;
+      border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .auth-header {
+      background: var(--bg-gradient);
+      padding: 24px 26px 70px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-header::before,
+    .auth-header::after {
+      content: "";
+      position: absolute;
+      width: 160%;
+      height: 120px;
+      background: radial-gradient(circle at 0 0, #ffffff33, transparent 60%);
+      top: 40px;
+      left: -30%;
+      transform: rotate(-4deg);
+    }
+
+    .auth-header::after {
+      top: 75px;
+      left: -20%;
+      opacity: .7;
+    }
+
+    .auth-header h2 {
+      font-size: 26px;
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-header span {
+      font-size: 14px;
+      opacity: .9;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-body {
+      padding: 20px 26px 24px;
+      margin-top: -48px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .auth-body form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .field input {
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      padding: 10px 14px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color .18s, box-shadow .18s, background-color .18s;
+      background-color: #f9fafb;
+    }
+
+    .field input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.18);
+      background-color: #fff;
+    }
+
+    .field small {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .btn-primary {
+      border: none;
+      border-radius: 999px;
+      padding: 11px 18px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #fff;
+      background: var(--bg-gradient);
+      cursor: pointer;
+      margin-top: 4px;
+      transition: transform .12s, box-shadow .12s, filter .12s;
+      box-shadow: 0 12px 25px rgba(79,70,229,0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+      box-shadow: 0 16px 30px rgba(79,70,229,0.40);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 12px rgba(79,70,229,0.35);
+    }
+
+    .auth-footer {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .auth-footer a {
+      color: #6d28d9;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .error-msg {
+      font-size: 12px;
+      color: #b91c1c;
+      background: #fee2e2;
+      border-radius: 999px;
+      padding: 6px 12px;
+      margin-top: 2px;
+      display: none;
+      text-align: center;
+    }
+
+    .error-msg.visible {
+      display: block;
+    }
+
+    .pill-toggle {
+      display: inline-flex;
+      padding: 3px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .pill-toggle button {
+      border: none;
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      background: transparent;
+      color: #e5e7eb;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+
+    .pill-toggle button.active {
+      background: #fff;
+      color: var(--accent);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="auth-shell">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="pill-toggle">
+          <button id="btn-login" class="active" type="button">Log in</button>
+          <button id="btn-signup" type="button">Sign up</button>
+        </div>
+        <h2 id="auth-title">Bentornato!</h2>
+        <span id="auth-subtitle">Accedi con la tua email aziendale.</span>
+      </div>
+
+      <div class="auth-body">
+
+        <!-- LOGIN -->
+        <form id="form-login">
+          <div class="field">
+            <label for="login-email">Email aziendale</label>
+            <input type="email" id="login-email" placeholder="nome.cognome@azienda.it" required>
+          </div>
+
+          <div class="field">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="Password" required>
+          </div>
+
+          <button type="submit" class="btn-primary">Log in</button>
+
+          <div id="login-error" class="error-msg"></div>
+
+          <div class="auth-footer">
+            Non hai un account?
+            <a href="#" id="link-to-signup">Registrati</a>
+          </div>
+        </form>
+
+        <!-- SIGN UP -->
+        <form id="form-signup" style="display:none;">
+          <div class="field">
+            <label for="signup-name">Nome e cognome</label>
+            <input type="text" id="signup-name" placeholder="Nome Cognome" required>
+          </div>
+
+          <div class="field">
+            <label for="signup-email">Email aziendale</label>
+            <input type="email" id="signup-email" placeholder="nome.cognome@azienda.it" required>
+          </div>
+
+          <div class="field">
+            <label for="signup-password">Password</label>
+            <input type="password" id="signup-password" placeholder="Minimo 6 caratteri" required>
+          </div>
+
+          <div class="field">
+            <label for="signup-password2">Conferma password</label>
+            <input type="password" id="signup-password2" placeholder="Ripeti password" required>
+          </div>
+
+          <div class="field">
+            <label for="signup-code">Codice aziendale</label>
+            <input type="text" id="signup-code" placeholder="Es. ABC123" required>
+            <small>Per registrarti devi conoscere il codice aziendale.</small>
+          </div>
+
+          <button type="submit" class="btn-primary">Sign up</button>
+
+          <div id="signup-error" class="error-msg"></div>
+
+          <div class="auth-footer">
+            Hai già un account?
+            <a href="#" id="link-to-login">Vai al login</a>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- Logica auth -->
+  <script src="js/auth.js"></script>
+
+  <!-- Toggle UI login / signup -->
+  <script>
+    const btnLogin = document.getElementById('btn-login');
+    const btnSignup = document.getElementById('btn-signup');
+    const formLogin = document.getElementById('form-login');
+    const formSignup = document.getElementById('form-signup');
+    const title = document.getElementById('auth-title');
+    const subtitle = document.getElementById('auth-subtitle');
+
+    const linkToSignup = document.getElementById('link-to-signup');
+    const linkToLogin = document.getElementById('link-to-login');
+
+    function showLogin() {
+      btnLogin.classList.add('active');
+      btnSignup.classList.remove('active');
+      formLogin.style.display = 'flex';
+      formSignup.style.display = 'none';
+      title.textContent = 'Bentornato!';
+      subtitle.textContent = 'Accedi con la tua email aziendale.';
+    }
+
+    function showSignup() {
+      btnSignup.classList.add('active');
+      btnLogin.classList.remove('active');
+      formLogin.style.display = 'none';
+      formSignup.style.display = 'flex';
+      title.textContent = 'Ciao, benvenuto 👋';
+      subtitle.textContent = 'Crea il tuo profilo nella comunità aziendale.';
+    }
+
+    btnLogin.addEventListener('click', showLogin);
+    btnSignup.addEventListener('click', showSignup);
+    linkToSignup.addEventListener('click', e => { e.preventDefault(); showSignup(); });
+    linkToLogin.addEventListener('click', e => { e.preventDefault(); showLogin(); });
+  </script>
+
+</body>
+</html>
